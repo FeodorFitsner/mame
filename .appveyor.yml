@@ -16,6 +16,7 @@ install:
 
 build_script:
   - where bash
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))  
   - bash -lc "exec 0</dev/null && cd $APPVEYOR_BUILD_FOLDER && export MINGW64=/mingw64 && make SUBTARGET=tiny PTR64=1 TOOLS=1 OPTIMIZE=0 vs2019 -j3"
   - msbuild "build\projects\windows\mametiny\vs2019\mametiny.sln" /m /p:ContinueOnError=false /p:StopOnFirstFailure=true /property:Configuration=Debug /property:Platform=x64 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
