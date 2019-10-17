@@ -8,7 +8,6 @@ clone_depth: 1
 environment:
   matrix:
     - BUILD: GCC
-    - BUILD: MSVC
 
 install:
   - set "PATH=C:\msys64\usr\bin;C:\msys64\mingw64\bin;C:\Windows\System32;C:\Windows;%PATH%"
@@ -16,6 +15,7 @@ install:
   - set PreferredToolArchitecture=x64
 
 build_script:
+  - where bash
   - bash -lc "exec 0</dev/null && cd $APPVEYOR_BUILD_FOLDER && export MINGW64=/mingw64 && make SUBTARGET=tiny PTR64=1 TOOLS=1 OPTIMIZE=0 vs2019 -j3"
   - msbuild "build\projects\windows\mametiny\vs2019\mametiny.sln" /m /p:ContinueOnError=false /p:StopOnFirstFailure=true /property:Configuration=Debug /property:Platform=x64 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
