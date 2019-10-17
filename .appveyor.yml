@@ -35,6 +35,7 @@ for:
       - set MSYSTEM=MINGW64
       - bash -lc "pacman -Syu --noconfirm"
     build_script:
+      - where bash
       - bash -lc "exec 0</dev/null && cd $APPVEYOR_BUILD_FOLDER && export MINGW64=/mingw64 && make SUBTARGET=tiny PTR64=1 OPTIMIZE=0 ARCHOPTS=-Wa,-mbig-obj IGNORE_GIT=1 -j3"
     test_script:
       - \projects\mame\mametiny64.exe -validate
